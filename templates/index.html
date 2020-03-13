@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+{% block title%} ホーム {%endblock%}
+
+
+{%block body%}
+
+<div class="container">
+  <div class="col md-12">
+    <div class="jumbotron p-3">
+      <h2>管理 <b>電話帳</b> <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#mymodal">新しい連絡先を追加</button></h2>
+      {% with messages =  get_flashed_messages() %}
+      {% if messages%}
+      {% for message in messages %}
+      <div class="alert alert-success alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+          <span aria-hidden="true">x</span>
+        </button>
+        {{message}}
+      </div>
+
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <table class="table table-hover table-dark">
+        <tr>
+          <th>ID</th>
+          <th>名前</th>
+          <th>電話番号</th>
+          <th>電子メール</th>
+          <th>アクション</th>
+        </tr>
+
+        {% for row in phonebook %}
+        <tr>
+          <td>{{row.id}}</td>
+          <td>{{row.name}}</td>
+          <td>{{row.email}}</td>
+          <td>{{row.phone}}</td>
+
+          <td>
+            <a href="/update/{{row.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.id}}">編集</a>
+            <a href="/delete/{{row.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to delete ?')">削除</a>
+          </td>
+        </tr>
+
+      <!-- Modal edit -->
+
+                  <!-- Modal Edit Employee-->
+                  <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                  
+                  
+                       <div class="modal-content">
+                  
+                  
+                          <div class="modal-header">
+                  
+                  
+                             <h4 class="modal-title">更新</h4>
+                  
+                  
+                          </div>
+                  
+                  
+                          <div class="modal-body">
+                  
+                  
+                             <form action="{{url_for('update')}}" method="POST">
+                  
+                  
+                                <div class="form-group">
+                  
+                  
+                                   <label>名前:</label>
+                                    <input type="hidden"  name="id" value="{{row.id}}">
+                  
+                                   <input type="text" class="form-control" name="name" value="{{row.name}}">
+                  
+                  
+                                </div>
+                  
+                  
+                  
+                                <div class="form-group">
+                  
+                  
+                                   <label>電子メール:</label>
+                  
+                                   <input type="text" class="form-control" name="email" value="{{row.email}}">
+                  
+                  
+                                </div>
+                  
+                  
+                                <div class="form-group">
+                  
+                                  
+                                   <label>電話番号:</label>
+                  
+                                   <input type="text" class="form-control" name="phone" value="{{row.phone}}">
+                  
+                  
+                                </div>
+                  
+                  
+                                <div class="form-group">
+                  
+                  
+                                   <button class="btn btn-primary" type="submit">更新</button>
+                  
+                  
+                                </div>
+                  
+                  
+                             </form>
+                  
+                  
+                          </div>
+                  
+                  
+                          <div class="modal-footer">
+                  
+                  
+                             <button type="button" class="btn btn-secondary" data-dismiss="modal">クローズ</button>
+                  
+                  
+                          </div>
+                  
+                  
+                       </div>
+                  
+                  
+                    </div>
+                  
+                 </div>
+
+          <!-- End modaledit-->
+          {% endfor %}
+      </table>
+      <!-- Modal Add employee -->
+
+        <div id="mymodal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                  <h4 class="modal-title">連絡先を追加</h4>
+                </div>
+                <div class="modal-body">
+
+                  <form action="{{url_for('insert')}}" method="POST">
+                    
+
+                      <div class="form-group">
+
+                        <label>名前:</label>
+                        <input type="text" class="form-control" name="name" required="1">
+
+
+                      </div>
+
+
+                      <div class="form-group">
+
+
+                        <label>電子メール:</label>
+                        <input type="email" class="form-control" name="email" required="1">
+
+
+                      </div>
+
+
+                      <div class="form-group">
+
+
+                        <label>電話番号:</label>
+                        <input type="number" class="form-control" name="phone" required="1">
+
+
+                      </div>
+
+
+
+                      <div class="form-group">
+
+
+                        <button class="btn btn-primary" type="submit">連絡先を追加</button>
+
+
+                      </div>
+
+
+                  </form>
+
+
+                </div>
+
+
+                <div class="modal-footer">
+
+
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">クローズ</button>
+
+
+                </div>
+
+
+            </div>
+
+
+          </div>
+        
+            <!-- End mymodal-->
+
+
+
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+{%endblock%}
