@@ -53,7 +53,7 @@ multidict==4.6.1
 mysql-connector==2.2.9
 mysql-connector-python==8.0.19
 nbformat==4.4.0
-numpy==1.16.2
+numpy==1.22.0
 panda==0.3.1
 pandas==0.24.2
 pefile==2019.4.18
